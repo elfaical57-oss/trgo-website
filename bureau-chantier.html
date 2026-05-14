@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bureaux de Chantier & de Vente — TRGO Construction Modulaire</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-deep:       #060D18;
+            --bg-dark:       #0A1622;
+            --bg-card:       #0F1E30;
+            --bg-card-hover: #152638;
+            --copper:        #C9921C;
+            --copper-light:  #E5A82A;
+            --copper-pale:   rgba(201,146,28,.10);
+            --copper-glow:   rgba(201,146,28,.28);
+            --white:         #FFFFFF;
+            --text-1:        #E8EDF3;
+            --text-2:        #8BA3BC;
+            --text-3:        #4A6272;
+            --border:        rgba(201,146,28,.18);
+            --border-sub:    rgba(255,255,255,.05);
+            --ff-display: 'Cormorant Garamond', Georgia, serif;
+            --ff-body:    'Jost', system-ui, sans-serif;
+            --ff-label:   'Bebas Neue', Impact, sans-serif;
+            --radius: 4px; --radius-lg: 10px;
+            --ease: cubic-bezier(.4,0,.2,1);
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg-deep); color: var(--text-1); font-family: var(--ff-body); font-size: 16px; line-height: 1.65; overflow-x: hidden; cursor: none; }
+        body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9997; opacity: .5; }
+        #cur  { width: 7px; height: 7px; background: var(--copper); border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%,-50%); pointer-events: none; z-index: 9999; transition: transform .12s var(--ease); }
+        #curl { width: 34px; height: 34px; border: 1.5px solid var(--copper); border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%,-50%); pointer-events: none; z-index: 9998; opacity: .45; transition: transform .18s var(--ease), opacity .3s; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+        /* TOPBAR */
+        .topbar { background: rgba(201,146,28,.07); border-bottom: 1px solid var(--border); padding: 9px 0; }
+        .topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .topbar-left { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+        .topbar-right { display: flex; align-items: center; gap: 16px; }
+        .titem { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-2); }
+        .titem svg { color: var(--copper); flex-shrink: 0; }
+        .titem a { color: inherit; text-decoration: none; transition: color .2s; }
+        .titem a:hover { color: var(--copper-light); }
+        .topbar-tag { font-family: var(--ff-label); font-size: 11px; letter-spacing: .18em; color: var(--copper); opacity: .75; }
+        .s-links { display: flex; gap: 8px; }
+        .s-link { width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-2); text-decoration: none; transition: border-color .25s, color .25s, background .25s; }
+        .s-link:hover { border-color: var(--copper); color: var(--copper); background: var(--copper-pale); }
+
+        /* NAVBAR */
+        .navbar { position: sticky; top: 0; z-index: 1000; transition: background .3s, box-shadow .3s; }
+        .navbar.scrolled { background: rgba(6,13,24,.96); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: 0 1px 0 var(--border), 0 8px 40px rgba(0,0,0,.5); }
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 74px; gap: 32px; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+        .logo-text { font-family: var(--ff-label); font-size: 34px; letter-spacing: .05em; line-height: 1; }
+        .logo-text .T { color: var(--white); }
+        .logo-text .RGO { color: var(--copper); }
+        .logo-sub { font-family: var(--ff-body); font-size: 9px; letter-spacing: .22em; color: var(--text-2); text-transform: uppercase; border: 1px solid var(--border); padding: 2px 7px; margin-top: 4px; display: block; }
+        .nav-links { display: flex; list-style: none; gap: 4px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-2); font-size: 12.5px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 8px 13px; border-radius: var(--radius); position: relative; transition: color .2s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 0; height: 1.5px; background: var(--copper); transition: width .3s var(--ease); }
+        .nav-links a:hover { color: var(--white); }
+        .nav-links a:hover::after { width: calc(100% - 26px); }
+        .nav-cta { background: var(--copper) !important; color: var(--bg-deep) !important; font-weight: 700 !important; padding: 10px 22px !important; border-radius: var(--radius) !important; }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover { background: var(--copper-light) !important; }
+        .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .nav-toggle span { width: 22px; height: 2px; background: var(--white); transition: all .3s; border-radius: 2px; }
+
+        /* BREADCRUMB */
+        .breadcrumb { background: var(--bg-dark); border-bottom: 1px solid var(--border-sub); padding: 14px 0; }
+        .breadcrumb-inner { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-3); }
+        .breadcrumb-inner a { color: var(--text-2); text-decoration: none; transition: color .2s; }
+        .breadcrumb-inner a:hover { color: var(--copper); }
+        .breadcrumb-inner svg { color: var(--text-3); flex-shrink: 0; }
+        .breadcrumb-inner span { color: var(--copper); }
+
+        /* PRODUCT HERO */
+        .product-hero { position: relative; overflow: hidden; min-height: 480px; display: flex; align-items: flex-end; }
+        .product-hero-img { position: absolute; inset: 0; }
+        .product-hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .product-hero-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,13,24,.95) 0%, rgba(6,13,24,.6) 50%, rgba(6,13,24,.2) 100%); }
+        .product-hero-content { position: relative; z-index: 2; padding: 64px 0; width: 100%; }
+        .product-hero-label { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ff-label); font-size: 11px; letter-spacing: .3em; color: var(--copper); margin-bottom: 16px; }
+        .product-hero-label::before { content: ''; width: 22px; height: 1px; background: var(--copper); }
+        .product-hero-title { font-family: var(--ff-display); font-size: clamp(38px, 5vw, 68px); font-weight: 600; color: var(--white); line-height: 1.1; margin-bottom: 20px; max-width: 700px; }
+        .product-hero-title em { font-style: italic; color: var(--copper); }
+        .product-hero-desc { font-size: 16px; color: var(--text-2); line-height: 1.8; max-width: 600px; margin-bottom: 32px; }
+        .btn-p { display: inline-flex; align-items: center; gap: 10px; background: var(--copper); color: var(--bg-deep); font-family: var(--ff-body); font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; padding: 14px 28px; border-radius: var(--radius); border: 2px solid var(--copper); transition: all .22s; cursor: none; }
+        .btn-p:hover { background: var(--copper-light); border-color: var(--copper-light); transform: translateY(-2px); box-shadow: 0 10px 28px var(--copper-glow); }
+        .btn-s { display: inline-flex; align-items: center; gap: 10px; background: transparent; color: var(--text-1); font-family: var(--ff-body); font-size: 12.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; padding: 14px 28px; border-radius: var(--radius); border: 2px solid var(--border); transition: all .22s; cursor: none; }
+        .btn-s:hover { border-color: var(--copper); color: var(--copper); background: var(--copper-pale); }
+
+        /* SECTIONS */
+        section { padding: 96px 0; }
+        .sec-label { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ff-label); font-size: 11px; letter-spacing: .3em; color: var(--copper); text-transform: uppercase; margin-bottom: 18px; }
+        .sec-label::before { content: ''; width: 22px; height: 1px; background: var(--copper); opacity: .6; }
+        .sec-label::after  { content: ''; width: 8px;  height: 1px; background: var(--copper); opacity: .4; }
+        .sec-h2 { font-family: var(--ff-display); font-size: clamp(34px, 3.8vw, 54px); font-weight: 600; color: var(--white); line-height: 1.12; margin-bottom: 18px; }
+        .sec-h2 em { font-style: italic; color: var(--copper); }
+        .sec-p { font-size: 16px; color: var(--text-2); line-height: 1.82; max-width: 600px; }
+        .rev { opacity: 0; transform: translateY(28px); transition: opacity .72s var(--ease), transform .72s var(--ease); }
+        .rev.in { opacity: 1; transform: none; }
+        .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s}
+
+        /* WHY SECTION */
+        .why { background: var(--bg-dark); }
+        .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .why-img { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/3; border: 1px solid var(--border-sub); position: relative; }
+        .why-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .why-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(201,146,28,.08) 0%, transparent 60%); }
+        .why-img::before { content: ''; position: absolute; bottom: -12px; right: -12px; width: 50%; height: 50%; border: 2px solid rgba(201,146,28,.2); border-radius: var(--radius-lg); z-index: -1; }
+        .why-list { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+        .why-item { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border-sub); border-radius: var(--radius); transition: border-color .3s; }
+        .why-item:hover { border-color: var(--border); }
+        .why-icon { width: 36px; height: 36px; background: var(--copper-pale); border: 1px solid var(--border); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--copper); flex-shrink: 0; }
+        .why-body h4 { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+        .why-body p { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+        /* ADVANTAGES */
+        .adv-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; margin-top: 56px; }
+        .adv-card { background: var(--bg-card); border: 1px solid var(--border-sub); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; transition: border-color .3s, transform .3s; }
+        .adv-card:hover { border-color: var(--border); transform: translateY(-4px); }
+        .adv-icon { width: 52px; height: 52px; background: var(--copper-pale); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--copper); margin: 0 auto 18px; }
+        .adv-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .04em; }
+        .adv-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; }
+
+        /* STEPS */
+        .steps { background: var(--bg-dark); }
+        .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 56px; }
+        .step-card { background: var(--bg-card); border: 1px solid var(--border-sub); border-radius: var(--radius-lg); padding: 40px 32px; position: relative; overflow: hidden; transition: border-color .3s; }
+        .step-card:hover { border-color: var(--border); }
+        .step-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--copper), transparent); opacity: 0; transition: opacity .3s; }
+        .step-card:hover::before { opacity: 1; }
+        .step-num { font-family: var(--ff-display); font-size: 64px; font-weight: 300; font-style: italic; color: rgba(201,146,28,.08); position: absolute; top: 16px; right: 20px; line-height: 1; }
+        .step-icon { width: 48px; height: 48px; background: var(--copper-pale); border: 1px solid var(--border); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--copper); margin-bottom: 20px; }
+        .step-title { font-size: 17px; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 12px; }
+        .step-desc { font-size: 14px; color: var(--text-2); line-height: 1.75; }
+
+        /* USECASES */
+        .usecases-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 56px; }
+        .usecase { display: flex; align-items: flex-start; gap: 14px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border-sub); border-radius: var(--radius); }
+        .usecase-dot { width: 8px; height: 8px; background: var(--copper); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+        .usecase p { font-size: 14px; color: var(--text-2); line-height: 1.65; }
+        .usecase p strong { color: var(--white); font-weight: 600; display: block; margin-bottom: 4px; }
+
+        /* CONTACT FORM */
+        .contact-sec { background: var(--bg-dark); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: flex-start; }
+        .form-wrap { background: var(--bg-card); border: 1px solid var(--border-sub); border-radius: var(--radius-lg); padding: 44px; }
+        .form-title { font-family: var(--ff-display); font-size: 28px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+        .form-subtitle { font-size: 14px; color: var(--text-2); margin-bottom: 32px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; background: var(--bg-dark); border: 1px solid var(--border-sub); border-radius: var(--radius); padding: 13px 16px; font-family: var(--ff-body); font-size: 14px; color: var(--text-1); outline: none; transition: border-color .25s, box-shadow .25s; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--copper); box-shadow: 0 0 0 3px rgba(201,146,28,.1); }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .form-group select option { background: var(--bg-dark); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-submit { width: 100%; margin-top: 8px; justify-content: center; }
+        .contact-info h3 { font-family: var(--ff-display); font-size: 38px; font-weight: 600; color: var(--white); margin-bottom: 12px; }
+        .contact-info h3 em { font-style: italic; color: var(--copper); }
+        .contact-info > p { font-size: 15px; color: var(--text-2); line-height: 1.8; margin-bottom: 36px; }
+        .c-items { display: flex; flex-direction: column; gap: 20px; }
+        .c-item { display: flex; align-items: flex-start; gap: 14px; }
+        .c-item-icon { width: 42px; height: 42px; background: var(--copper-pale); border: 1px solid var(--border); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--copper); flex-shrink: 0; }
+        .c-item-body h4 { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+        .c-item-body a, .c-item-body p { font-size: 14px; color: var(--text-2); text-decoration: none; transition: color .2s; }
+        .c-item-body a:hover { color: var(--copper-light); }
+
+        /* FAQ */
+        .faq { }
+        .faq-list { display: flex; flex-direction: column; gap: 12px; margin-top: 52px; max-width: 860px; margin-left: auto; margin-right: auto; }
+        .faq-item { background: var(--bg-card); border: 1px solid var(--border-sub); border-radius: var(--radius-lg); overflow: hidden; transition: border-color .3s; }
+        .faq-item.open { border-color: var(--border); }
+        .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 22px 28px; cursor: pointer; gap: 20px; }
+        .faq-q h4 { font-size: 15px; font-weight: 600; color: var(--white); line-height: 1.4; }
+        .faq-arrow { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--copper); flex-shrink: 0; transition: transform .3s, background .3s; }
+        .faq-item.open .faq-arrow { transform: rotate(45deg); background: var(--copper-pale); }
+        .faq-a { display: none; padding: 0 28px 22px; font-size: 14px; color: var(--text-2); line-height: 1.75; border-top: 1px solid var(--border-sub); padding-top: 18px; }
+        .faq-item.open .faq-a { display: block; }
+        .faq-header { text-align: center; margin-bottom: 0; }
+        .faq-header .sec-label { justify-content: center; }
+
+        /* FOOTER */
+        footer { background: var(--bg-deep); border-top: 1px solid var(--border-sub); padding: 68px 0 32px; }
+        .ft-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 56px; margin-bottom: 56px; }
+        .ft-brand p { font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 18px; max-width: 270px; }
+        .ft-soc { display: flex; gap: 8px; margin-top: 22px; }
+        .ft-col h4 { font-family: var(--ff-label); font-size: 12px; letter-spacing: .22em; color: var(--white); margin-bottom: 20px; }
+        .ft-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .ft-links a { font-size: 13px; color: var(--text-2); text-decoration: none; display: inline-block; transition: color .2s, padding-left .2s; }
+        .ft-links a:hover { color: var(--copper); padding-left: 6px; }
+        .ft-bottom { border-top: 1px solid var(--border-sub); padding-top: 26px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .ft-bottom p { font-size: 12px; color: var(--text-3); }
+        .ft-bottom a { color: var(--copper); text-decoration: none; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+        @media (max-width: 1024px) { .why-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; } .adv-grid { grid-template-columns: 1fr 1fr; } .usecases-grid { grid-template-columns: 1fr 1fr; } .ft-top { grid-template-columns: 1fr 1fr; gap: 40px; } }
+        @media (max-width: 768px) { .topbar { display: none; } .nav-links { display: none; position: absolute; top: 74px; left: 0; right: 0; background: var(--bg-dark); border-bottom: 1px solid var(--border); flex-direction: column; padding: 16px 24px; gap: 2px; } .nav-links.open { display: flex; } .nav-toggle { display: flex; } .steps-grid { grid-template-columns: 1fr; } .adv-grid { grid-template-columns: 1fr 1fr; } body { cursor: auto; } #cur, #curl { display: none; } }
+        @media (max-width: 540px) { .adv-grid, .usecases-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } .ft-top { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="curl"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="container">
+        <div class="topbar-inner">
+            <div class="topbar-left">
+                <div class="titem"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.56 3.34a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:+212661743906">+212 661 743 906</a></div>
+                <div class="titem"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:ste2trgo@gmail.com">ste2trgo@gmail.com</a></div>
+                <div class="titem"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Lun – Sam &nbsp;8h00 – 18h00</div>
+            </div>
+            <div class="topbar-right">
+                <span class="topbar-tag">FAITES CONFIANCE AU LEADER</span>
+                <div class="s-links">
+                    <a href="#" class="s-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                    <a href="#" class="s-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                    <a href="#" class="s-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <div><div class="logo-text"><span class="T">T</span><span class="RGO">RGO</span></div><span class="logo-sub">Construction Modulaire</span></div>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="index.html#a-propos">À Propos</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#gammes" class="active">Gammes</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="#contact-form" class="nav-cta">Obtenir un Devis</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+        </div>
+    </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <a href="index.html">Accueil</a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            <a href="index.html#gammes">Gammes</a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            <span>Bureaux de Chantier & de Vente</span>
+        </div>
+    </div>
+</div>
+
+<!-- PRODUCT HERO -->
+<div class="product-hero">
+    <div class="product-hero-img">
+        <img src="images/bureau-chantier.jpg" alt="Bureaux de Chantier et de Vente TRGO">
+    </div>
+    <div class="container">
+        <div class="product-hero-content">
+            <div class="product-hero-label">Nos Gammes</div>
+            <h1 class="product-hero-title">Bureaux de <em>Chantier</em><br>& de Vente</h1>
+            <p class="product-hero-desc">Vous cherchez à construire un bureau de chantier sans attendre des mois ni dépenser une fortune ? TRGO a la solution qu'il vous faut.</p>
+            <div style="display:flex;gap:14px;flex-wrap:wrap">
+                <a href="#contact-form" class="btn-p">Nous Contacter <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                <a href="index.html#gammes" class="btn-s">← Retour aux Gammes</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- WHY SECTION -->
+<section class="why">
+    <div class="container">
+        <div class="why-grid">
+            <div class="why-img rev">
+                <img src="images/bureau-chantier.jpg" alt="Bureau de chantier TRGO">
+            </div>
+            <div>
+                <div class="sec-label rev">Pourquoi Choisir TRGO ?</div>
+                <h2 class="sec-h2 rev d1">Bureau de <em>Chantier</em> Maroc</h2>
+                <p class="sec-p rev d2">Vous souhaitez construire un espace pour un usage professionnel mais vous n'avez pas le temps d'attendre des mois pour :</p>
+                <div class="why-list">
+                    <div class="why-item rev d2">
+                        <div class="why-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                        <div class="why-body"><h4>Sans Permis de Construire</h4><p>Évitez les démarches administratives fastidieuses — aucun permis requis.</p></div>
+                    </div>
+                    <div class="why-item rev d3">
+                        <div class="why-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                        <div class="why-body"><h4>Installation Ultra-Rapide</h4><p>Montage en quelques jours seulement — 3× plus rapide que la construction traditionnelle.</p></div>
+                    </div>
+                    <div class="why-item rev d4">
+                        <div class="why-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                        <div class="why-body"><h4>Économies de 40%</h4><p>Réduisez vos coûts par rapport à la construction conventionnelle sur site.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section>
+    <div class="container">
+        <div style="text-align:center">
+            <div class="sec-label rev" style="justify-content:center">Avantages</div>
+            <h2 class="sec-h2 rev d1" style="text-align:center">Pourquoi Choisir la<br><em>Construction Modulaire</em> ?</h2>
+        </div>
+        <div class="adv-grid">
+            <div class="adv-card rev d1">
+                <div class="adv-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                <div class="adv-title">Économies 40%</div>
+                <p class="adv-desc">Réduisez vos coûts de construction de 40% par rapport aux méthodes traditionnelles.</p>
+            </div>
+            <div class="adv-card rev d2">
+                <div class="adv-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                <div class="adv-title">70% Plus Rapide</div>
+                <p class="adv-desc">Réduisez votre temps de chantier de plus de 70% par rapport à la construction conventionnelle.</p>
+            </div>
+            <div class="adv-card rev d3">
+                <div class="adv-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <div class="adv-title">100% Écologique</div>
+                <p class="adv-desc">Nos solutions sont respectueuses de l'environnement et fabriquées avec des matériaux durables.</p>
+            </div>
+            <div class="adv-card rev d4">
+                <div class="adv-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg></div>
+                <div class="adv-title">Modulable</div>
+                <p class="adv-desc">Adaptable à tous types de chantiers et de projets, personnalisable selon vos besoins.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- USE CASES -->
+<section style="background:var(--bg-dark);padding:96px 0">
+    <div class="container">
+        <div class="sec-label rev">Réalisations</div>
+        <h2 class="sec-h2 rev d1">Découvrez Nos <em>Réalisations</em></h2>
+        <p class="sec-p rev d2">Nous avons construit des milliers de bâtiments modulaires pour des particuliers et des professionnels dans divers secteurs.</p>
+        <div class="usecases-grid">
+            <div class="usecase rev d1"><div class="usecase-dot"></div><p><strong>Bases vie & Installations de chantier</strong>Des espaces de travail adaptés pour vos équipes sur les chantiers en cours.</p></div>
+            <div class="usecase rev d2"><div class="usecase-dot"></div><p><strong>Bâtiments modulaires industriels</strong>Espaces de travail, de stockage et de protection pour votre matériel et vos machines.</p></div>
+            <div class="usecase rev d3"><div class="usecase-dot"></div><p><strong>Locaux professionnels & Bureaux de vente</strong>Espaces de travail professionnels pour accueillir vos clients dans les meilleures conditions.</p></div>
+            <div class="usecase rev d1"><div class="usecase-dot"></div><p><strong>Guérites de sécurité</strong>Espaces pour les agents de surveillance, assurant des conditions de travail optimales.</p></div>
+            <div class="usecase rev d2"><div class="usecase-dot"></div><p><strong>Salles de classe & Écoles</strong>Espaces modulaires équipés pour l'enseignement, conçus pour un cadre de travail idéal.</p></div>
+            <div class="usecase rev d3"><div class="usecase-dot"></div><p><strong>Espaces de réception & Accueil</strong>Structures modulaires pour accueillir vos visiteurs et clients professionnellement.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="steps">
+    <div class="container">
+        <div style="text-align:center">
+            <div class="sec-label rev" style="justify-content:center">Comment Ça Marche</div>
+            <h2 class="sec-h2 rev d1" style="text-align:center">3 Étapes pour <em>Votre Projet</em></h2>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card rev d1">
+                <span class="step-num">01</span>
+                <div class="step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+                <h3 class="step-title">Conception</h3>
+                <p class="step-desc">Notre bureau d'études vous accompagne gratuitement pour la conception et le chiffrage de votre projet. Plans 3D inclus.</p>
+            </div>
+            <div class="step-card rev d2">
+                <span class="step-num">02</span>
+                <div class="step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                <h3 class="step-title">Planification</h3>
+                <p class="step-desc">Obtenez un devis détaillé et un plan complet de votre bâtiment modulaire. Validation technique avant fabrication.</p>
+            </div>
+            <div class="step-card rev d3">
+                <span class="step-num">03</span>
+                <div class="step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+                <h3 class="step-title">Livraison & Installation</h3>
+                <p class="step-desc">Fabrication en usine, transport sécurisé et installation clé en main sur votre site. Livraison partout au Maroc.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section class="contact-sec" id="contact-form">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="sec-label rev">Demande de Devis</div>
+                <h3 class="rev d1">Vous avez un projet<br>à <em>réaliser</em> ?</h3>
+                <p class="rev d2">Notre équipe d'ingénieurs et de conseillers spécialistes est prête à vous accompagner dans toutes les phases de votre projet pour en garantir le succès.</p>
+                <div class="c-items">
+                    <div class="c-item rev d2">
+                        <div class="c-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.56 3.34a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                        <div class="c-item-body"><h4>Téléphone</h4><a href="tel:+212661743906">+212 661 743 906</a></div>
+                    </div>
+                    <div class="c-item rev d3">
+                        <div class="c-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                        <div class="c-item-body"><h4>Email</h4><a href="mailto:ste2trgo@gmail.com">ste2trgo@gmail.com</a></div>
+                    </div>
+                    <div class="c-item rev d4">
+                        <div class="c-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                        <div class="c-item-body"><h4>Site Web</h4><p>trgoconstruction.com</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-wrap rev d1">
+                <div class="form-title">Demande de Devis</div>
+                <div class="form-subtitle">Réponse sous 24h — Consultation gratuite</div>
+                <form onsubmit="return false;">
+                    <div class="form-row">
+                        <div class="form-group"><label>Nom</label><input type="text" placeholder="Votre nom"></div>
+                        <div class="form-group"><label>Prénom</label><input type="text" placeholder="Votre prénom"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Email</label><input type="email" placeholder="votre@email.com"></div>
+                        <div class="form-group"><label>Téléphone</label><input type="tel" placeholder="+212 6XX XXX XXX"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Sujet</label>
+                        <select>
+                            <option>Bureau de Chantier</option>
+                            <option>Bureau de Vente</option>
+                            <option>Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Message</label><textarea placeholder="Décrivez votre projet (dimensions souhaitées, usage, délai...)"></textarea></div>
+                    <a href="tel:+212661743906" class="btn-p form-submit">Envoyer la Demande <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+    <div class="container">
+        <div class="faq-header">
+            <div class="sec-label rev" style="justify-content:center">FAQ</div>
+            <h2 class="sec-h2 rev d1" style="text-align:center">Questions <em>Fréquentes</em></h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-q"><h4>Qu'est-ce qu'un bureau modulaire de chantier ?</h4><div class="faq-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+                <div class="faq-a">Un bureau modulaire de chantier est une structure préfabriquée en usine, conçue pour être rapidement installée sur votre site. Il sert d'espace de travail, de réunion ou d'administration pour les équipes de chantier.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><h4>Quels sont les avantages par rapport aux constructions traditionnelles ?</h4><div class="faq-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+                <div class="faq-a">Les bureaux modulaires offrent une installation 3× plus rapide, des coûts réduits de 40%, aucune autorisation requise, et la possibilité de déplacer ou réutiliser la structure sur d'autres chantiers.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><h4>Est-il possible de personnaliser les bureaux modulaires ?</h4><div class="faq-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+                <div class="faq-a">Absolument. Nos modules sont entièrement personnalisables : dimensions, agencement intérieur, couleurs, équipements (climatisation, électricité, plomberie). Nos ingénieurs vous accompagnent gratuitement dans la conception.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><h4>Quelle est la durée de vie d'un bureau modulaire ?</h4><div class="faq-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+                <div class="faq-a">Nos bureaux modulaires sont construits avec des matériaux de haute qualité et ont une durée de vie de 20 à 30 ans avec un entretien minimal. Ils peuvent être déplacés et réutilisés sur plusieurs projets.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><h4>Livrez-vous partout au Maroc ?</h4><div class="faq-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+                <div class="faq-a">Oui, TRGO livre et installe dans tout le Maroc. Notre équipe prend en charge le transport, le montage et la mise en service sur votre site, quelle que soit la région.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="ft-top">
+            <div class="ft-brand">
+                <a href="index.html" class="logo"><div><div class="logo-text"><span class="T">T</span><span class="RGO">RGO</span></div><span class="logo-sub">Construction Modulaire</span></div></a>
+                <p>Votre partenaire de confiance pour des solutions modulaires premium au Maroc. Clé en main, du concept à la livraison.</p>
+                <div class="ft-soc">
+                    <a href="#" class="s-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                    <a href="#" class="s-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                    <a href="#" class="s-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+                </div>
+            </div>
+            <div class="ft-col"><h4>Navigation</h4><ul class="ft-links"><li><a href="index.html">Accueil</a></li><li><a href="index.html#a-propos">À Propos</a></li><li><a href="index.html#services">Services</a></li><li><a href="index.html#gammes">Gammes</a></li><li><a href="index.html#contact">Contact</a></li></ul></div>
+            <div class="ft-col"><h4>Nos Gammes</h4><ul class="ft-links"><li><a href="bureau-chantier.html">Bureaux de Chantier</a></li><li><a href="blocs-sanitaires.html">Blocs Sanitaires</a></li><li><a href="logement-secondaire.html">Logement Secondaire</a></li><li><a href="toilette-mobile.html">Toilette Mobile</a></li></ul></div>
+            <div class="ft-col"><h4>Contact</h4><ul class="ft-links"><li><a href="tel:+212661743906">+212 661 743 906</a></li><li><a href="tel:+212520596185">+212 520 596 185</a></li><li><a href="mailto:ste2trgo@gmail.com">ste2trgo@gmail.com</a></li><li><a href="#">trgoconstruction.com</a></li><li><a href="#">Cité Essalam, Casablanca</a></li></ul></div>
+        </div>
+        <div class="ft-bottom"><p>© 2024 TRGO Construction Modulaire. Tous droits réservés.</p><p>Conçu avec excellence pour <a href="#">TRGO Maroc</a></p></div>
+    </div>
+</footer>
+
+<script>
+    const cur = document.getElementById('cur'), curl = document.getElementById('curl');
+    let mx=0,my=0,lx=0,ly=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+    (function lerp(){lx+=(mx-lx)*.12;ly+=(my-ly)*.12;curl.style.left=lx+'px';curl.style.top=ly+'px';requestAnimationFrame(lerp);})();
+    document.querySelectorAll('a,button,.faq-q,.adv-card,.why-item').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2)';curl.style.opacity='.7';});el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';curl.style.opacity='.45';});});
+    window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>16),{passive:true});
+    const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+    toggle.addEventListener('click',()=>links.classList.toggle('open'));
+    const revEls=document.querySelectorAll('.rev');
+    const io=new IntersectionObserver((entries,obs)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -48px 0px'});
+    revEls.forEach(el=>io.observe(el));
+    document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{const item=q.parentElement;item.classList.toggle('open');});});
+</script>
+</body>
+</html>

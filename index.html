@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRGO Construction Modulaire — Solutions Modulaires Premium au Maroc</title>
+    <meta name="description" content="TRGO, spécialiste en bâtiment et construction modulaire au Maroc. Conception, construction et livraison clé en main.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        /* ─────────────────────────────────────────
+           RESET & CSS VARIABLES
+        ───────────────────────────────────────── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-deep:       #060D18;
+            --bg-dark:       #0A1622;
+            --bg-card:       #0F1E30;
+            --bg-card-hover: #152638;
+            --copper:        #C9921C;
+            --copper-light:  #E5A82A;
+            --copper-dim:    #9A6E14;
+            --copper-pale:   rgba(201,146,28,.10);
+            --copper-glow:   rgba(201,146,28,.30);
+            --white:         #FFFFFF;
+            --text-1:        #E8EDF3;
+            --text-2:        #8BA3BC;
+            --text-3:        #4A6272;
+            --border:        rgba(201,146,28,.18);
+            --border-sub:    rgba(255,255,255,.05);
+
+            --ff-display: 'Cormorant Garamond', Georgia, serif;
+            --ff-body:    'Jost', system-ui, sans-serif;
+            --ff-label:   'Bebas Neue', Impact, sans-serif;
+
+            --radius:    4px;
+            --radius-lg: 10px;
+            --ease:      cubic-bezier(.4,0,.2,1);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-1);
+            font-family: var(--ff-body);
+            font-size: 16px;
+            line-height: 1.65;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Grain overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9997;
+            opacity: .5;
+        }
+
+        /* ─────────────────────────────────────────
+           CUSTOM CURSOR
+        ───────────────────────────────────────── */
+        #cur  { width: 7px;  height: 7px;  background: var(--copper); border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%,-50%); pointer-events: none; z-index: 9999; transition: transform .12s var(--ease); }
+        #curl { width: 34px; height: 34px; border: 1.5px solid var(--copper); border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%,-50%); pointer-events: none; z-index: 9998; opacity: .45; transition: transform .18s var(--ease), opacity .3s; }
+
+        /* ─────────────────────────────────────────
+           LAYOUT
+        ───────────────────────────────────────── */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+        /* ─────────────────────────────────────────
+           TOP BAR
+        ───────────────────────────────────────── */
+        .topbar {
+            background: rgba(201,146,28,.07);
+            border-bottom: 1px solid var(--border);
+            padding: 9px 0;
+            position: relative;
+            z-index: 200;
+        }
+        .topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .topbar-left  { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+        .topbar-right { display: flex; align-items: center; gap: 16px; }
+
+        .titem {
+            display: flex; align-items: center; gap: 7px;
+            font-size: 12px; color: var(--text-2); letter-spacing: .02em;
+        }
+        .titem svg { color: var(--copper); flex-shrink: 0; }
+        .titem a { color: inherit; text-decoration: none; transition: color .2s; }
+        .titem a:hover { color: var(--copper-light); }
+
+        .topbar-tag {
+            font-family: var(--ff-label);
+            font-size: 11px; letter-spacing: .18em;
+            color: var(--copper); opacity: .75;
+        }
+
+        .s-links { display: flex; gap: 8px; }
+        .s-link {
+            width: 26px; height: 26px;
+            border: 1px solid var(--border); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-2); text-decoration: none;
+            transition: border-color .25s, color .25s, background .25s;
+        }
+        .s-link:hover { border-color: var(--copper); color: var(--copper); background: var(--copper-pale); }
+
+        /* ─────────────────────────────────────────
+           NAVBAR
+        ───────────────────────────────────────── */
+        .navbar {
+            position: sticky; top: 0; z-index: 1000;
+            transition: background .3s, box-shadow .3s;
+        }
+        .navbar.scrolled {
+            background: rgba(6,13,24,.96);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            box-shadow: 0 1px 0 var(--border), 0 8px 40px rgba(0,0,0,.5);
+        }
+        .nav-inner {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 74px; gap: 32px;
+        }
+
+        /* Logo */
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+        .logo-text {
+            font-family: var(--ff-label);
+            font-size: 34px; letter-spacing: .05em; line-height: 1;
+        }
+        .logo-text .T { color: var(--white); }
+        .logo-text .RGO { color: var(--copper); }
+        .logo-sub {
+            font-family: var(--ff-body);
+            font-size: 9px; letter-spacing: .22em;
+            color: var(--text-2); text-transform: uppercase;
+            border: 1px solid var(--border);
+            padding: 2px 7px; margin-top: 4px; display: block;
+        }
+
+        /* Nav links */
+        .nav-links { display: flex; list-style: none; gap: 4px; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-2);
+            font-size: 12.5px; font-weight: 500; letter-spacing: .09em;
+            text-transform: uppercase; padding: 8px 13px;
+            border-radius: var(--radius); position: relative;
+            transition: color .2s;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute;
+            bottom: 5px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 1.5px; background: var(--copper);
+            transition: width .3s var(--ease);
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--white); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: calc(100% - 26px); }
+
+        .nav-cta {
+            background: var(--copper) !important;
+            color: var(--bg-deep) !important;
+            font-weight: 700 !important;
+            padding: 10px 22px !important;
+            border-radius: var(--radius) !important;
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover {
+            background: var(--copper-light) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px var(--copper-glow);
+        }
+
+        /* Hamburger */
+        .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .nav-toggle span { width: 22px; height: 2px; background: var(--white); transition: all .3s; border-radius: 2px; }
+
+        /* ─────────────────────────────────────────
+           HERO
+        ───────────────────────────────────────── */
+        .hero {
+            min-height: calc(100vh - 108px);
+            display: flex; align-items: center;
+            position: relative; overflow: hidden;
+            padding: 80px 0 100px;
+        }
+
+        /* Grid background */
+        .hero-bg {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(201,146,28,.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201,146,28,.025) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 75% 65% at 68% 48%, rgba(201,146,28,.06) 0%, transparent 65%),
+                radial-gradient(ellipse 50% 80% at 0% 100%, rgba(6,13,24,.9) 0%, transparent 55%);
+        }
+
+        /* Geometric deco */
+        .geo {
+            position: absolute; pointer-events: none;
+            border: 1px solid rgba(201,146,28,.08);
+        }
+        .geo-1 { width: 320px; height: 320px; top: 10%; right: 4%;  transform: rotate(18deg); }
+        .geo-2 { width: 200px; height: 200px; top: 22%; right: 10%; transform: rotate(18deg); border-color: rgba(201,146,28,.13); }
+        .geo-3 { width: 80px;  height: 80px;  bottom: 20%; left: 2%; transform: rotate(45deg); border-color: rgba(201,146,28,.1); }
+
+        /* Copper orb */
+        .hero-orb {
+            position: absolute;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,146,28,.07) 0%, transparent 70%);
+            right: 5%; top: 50%; transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 64px; align-items: center;
+            position: relative; z-index: 2;
+        }
+
+        .hero-label {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-family: var(--ff-label); font-size: 11.5px;
+            letter-spacing: .28em; color: var(--copper);
+            margin-bottom: 22px;
+            opacity: 0; animation: fadeUp .6s var(--ease) .15s forwards;
+        }
+        .hero-label::before { content: ''; width: 38px; height: 1px; background: var(--copper); }
+
+        .hero-h1 {
+            font-family: var(--ff-display);
+            font-size: clamp(46px, 5.8vw, 84px);
+            font-weight: 600; line-height: 1.08;
+            color: var(--white);
+            margin-bottom: 26px;
+            opacity: 0; animation: fadeUp .7s var(--ease) .3s forwards;
+        }
+        .hero-h1 em { font-style: italic; color: var(--copper); }
+
+        .hero-desc {
+            font-size: 16px; color: var(--text-2);
+            line-height: 1.85; max-width: 480px;
+            margin-bottom: 44px;
+            opacity: 0; animation: fadeUp .7s var(--ease) .45s forwards;
+        }
+
+        .hero-actions {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            opacity: 0; animation: fadeUp .7s var(--ease) .6s forwards;
+        }
+
+        /* ── Buttons ── */
+        .btn-p {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--copper); color: var(--bg-deep);
+            font-family: var(--ff-body); font-size: 12.5px;
+            font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+            text-decoration: none; padding: 14px 28px;
+            border-radius: var(--radius); border: 2px solid var(--copper);
+            transition: background .22s, border-color .22s, transform .22s, box-shadow .22s;
+            cursor: none;
+        }
+        .btn-p:hover {
+            background: var(--copper-light); border-color: var(--copper-light);
+            transform: translateY(-2px); box-shadow: 0 10px 28px var(--copper-glow);
+        }
+
+        .btn-s {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: transparent; color: var(--text-1);
+            font-family: var(--ff-body); font-size: 12.5px;
+            font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+            text-decoration: none; padding: 14px 28px;
+            border-radius: var(--radius); border: 2px solid var(--border);
+            transition: border-color .22s, color .22s, background .22s;
+            cursor: none;
+        }
+        .btn-s:hover { border-color: var(--copper); color: var(--copper); background: var(--copper-pale); }
+
+        /* Hero visual */
+        .hero-visual {
+            position: relative;
+            opacity: 0; animation: fadeIn 1.1s var(--ease) .35s forwards;
+        }
+
+        .h-frame {
+            border-radius: var(--radius-lg);
+            position: relative;
+        }
+        .h-frame::before {
+            content: '';
+            position: absolute; inset: -1.5px;
+            border-radius: calc(var(--radius-lg) + 1px);
+            background: linear-gradient(140deg, var(--copper) 0%, transparent 45%, var(--copper) 100%);
+            z-index: -1;
+        }
+        .h-img {
+            border-radius: var(--radius-lg);
+            overflow: hidden; aspect-ratio: 16/11;
+            background: var(--bg-card); position: relative;
+        }
+        .h-img img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform 6s var(--ease);
+        }
+        .h-img:hover img { transform: scale(1.04); }
+        .h-img::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(140deg, rgba(6,13,24,.25) 0%, transparent 55%);
+        }
+
+        .h-badge {
+            position: absolute;
+            background: rgba(15,30,48,.92);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 20px;
+            backdrop-filter: blur(14px);
+        }
+        .h-badge-1 { bottom: -18px; left: -18px; animation: float 4s ease-in-out infinite; }
+        .h-badge-2 { top: -18px; right: -18px; animation: float 4s ease-in-out 2s infinite; }
+        .h-badge .bn {
+            font-family: var(--ff-display); font-size: 30px;
+            font-weight: 700; color: var(--copper); line-height: 1;
+        }
+        .h-badge .bl {
+            font-size: 11px; color: var(--text-2);
+            text-transform: uppercase; letter-spacing: .1em; margin-top: 3px;
+        }
+
+        /* ─────────────────────────────────────────
+           STATS BAR
+        ───────────────────────────────────────── */
+        .stats-bar {
+            background: linear-gradient(90deg, var(--bg-card) 0%, rgba(201,146,28,.04) 50%, var(--bg-card) 100%);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 52px 0;
+            position: relative; overflow: hidden;
+        }
+        .stats-bar::before {
+            content: '';
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 180px; height: 1.5px;
+            background: linear-gradient(90deg, transparent, var(--copper), transparent);
+        }
+        .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); }
+        .stat-item { text-align: center; padding: 16px 24px; position: relative; }
+        .stat-item:not(:last-child)::after {
+            content: ''; position: absolute;
+            right: 0; top: 20%; height: 60%; width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--border), transparent);
+        }
+        .stat-num {
+            font-family: var(--ff-display);
+            font-size: 54px; font-weight: 700; color: var(--copper);
+            line-height: 1; display: block;
+        }
+        .stat-suf { font-size: 30px; font-weight: 300; }
+        .stat-lbl {
+            font-size: 11.5px; color: var(--text-2);
+            text-transform: uppercase; letter-spacing: .14em;
+            margin-top: 6px; font-weight: 500;
+        }
+
+        /* ─────────────────────────────────────────
+           SECTION COMMON
+        ───────────────────────────────────────── */
+        section { padding: 108px 0; }
+
+        .sec-label {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: var(--ff-label); font-size: 11px;
+            letter-spacing: .3em; color: var(--copper);
+            text-transform: uppercase; margin-bottom: 18px;
+        }
+        .sec-label::before { content: ''; width: 22px; height: 1px; background: var(--copper); opacity: .6; }
+        .sec-label::after  { content: ''; width: 8px;  height: 1px; background: var(--copper); opacity: .4; }
+
+        .sec-h2 {
+            font-family: var(--ff-display);
+            font-size: clamp(36px, 4vw, 58px);
+            font-weight: 600; color: var(--white);
+            line-height: 1.12; margin-bottom: 18px;
+        }
+        .sec-h2 em { font-style: italic; color: var(--copper); }
+
+        .sec-p {
+            font-size: 16px; color: var(--text-2);
+            line-height: 1.82; max-width: 540px;
+        }
+
+        /* Scroll reveal */
+        .rev {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity .72s var(--ease), transform .72s var(--ease);
+        }
+        .rev.in { opacity: 1; transform: none; }
+        .d1 { transition-delay: .08s; }
+        .d2 { transition-delay: .16s; }
+        .d3 { transition-delay: .24s; }
+        .d4 { transition-delay: .32s; }
+        .d5 { transition-delay: .40s; }
+
+        /* ─────────────────────────────────────────
+           ABOUT
+        ───────────────────────────────────────── */
+        .about { background: var(--bg-dark); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 88px; align-items: center; }
+
+        .about-vis { position: relative; }
+        .about-img {
+            border-radius: var(--radius-lg); overflow: hidden;
+            aspect-ratio: 4/3; position: relative;
+            border: 1px solid var(--border-sub);
+        }
+        .about-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .about-img::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(6,13,24,.25) 0%, transparent 50%);
+        }
+
+        /* Corner accent */
+        .about-img::before {
+            content: '';
+            position: absolute; bottom: -14px; right: -14px;
+            width: 55%; height: 55%;
+            border: 2px solid rgba(201,146,28,.25);
+            border-radius: var(--radius-lg);
+            z-index: -1;
+        }
+
+        .about-float {
+            position: absolute; top: 24px; left: -22px;
+            background: var(--copper);
+            color: var(--bg-deep);
+            padding: 16px 22px;
+            border-radius: var(--radius);
+            box-shadow: 0 12px 36px rgba(201,146,28,.45);
+            animation: float 4.5s ease-in-out infinite;
+        }
+        .about-float .afn {
+            font-family: var(--ff-display); font-size: 38px;
+            font-weight: 700; line-height: 1;
+        }
+        .about-float .aft {
+            font-family: var(--ff-label); font-size: 10px;
+            letter-spacing: .12em; margin-top: 3px; opacity: .9;
+        }
+
+        .about-feats { display: flex; flex-direction: column; gap: 14px; margin-top: 36px; }
+        .afeat {
+            display: flex; align-items: flex-start; gap: 16px;
+            background: var(--bg-card); border: 1px solid var(--border-sub);
+            border-radius: var(--radius); padding: 18px 20px;
+            transition: border-color .3s, background .3s;
+        }
+        .afeat:hover { border-color: var(--border); background: var(--bg-card-hover); }
+        .afeat-icon {
+            width: 40px; height: 40px; flex-shrink: 0;
+            background: var(--copper-pale); border: 1px solid var(--border);
+            border-radius: var(--radius); display: flex;
+            align-items: center; justify-content: center; color: var(--copper);
+        }
+        .afeat-body h4 {
+            font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 3px;
+        }
+        .afeat-body p { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+        /* ─────────────────────────────────────────
+           SERVICES
+        ───────────────────────────────────────── */
+        .services-hd { text-align: center; margin-bottom: 68px; }
+        .services-hd .sec-label { justify-content: center; }
+        .services-hd .sec-p { margin: 0 auto; text-align: center; }
+
+        .srv-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+
+        .srv-card {
+            background: var(--bg-card); border: 1px solid var(--border-sub);
+            border-radius: var(--radius-lg); padding: 42px 34px;
+            position: relative; overflow: hidden;
+            transition: border-color .3s, transform .3s, box-shadow .3s;
+            cursor: default;
+        }
+        .srv-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--copper), transparent);
+            opacity: 0; transition: opacity .3s;
+        }
+        .srv-card:hover {
+            border-color: rgba(201,146,28,.22);
+            transform: translateY(-5px);
+            box-shadow: 0 16px 48px rgba(0,0,0,.35), 0 0 0 1px rgba(201,146,28,.08);
+        }
+        .srv-card:hover::before { opacity: 1; }
+
+        .srv-num {
+            font-family: var(--ff-display); font-size: 60px;
+            font-weight: 300; font-style: italic;
+            color: rgba(201,146,28,.07);
+            position: absolute; top: 20px; right: 22px;
+            line-height: 1; pointer-events: none;
+        }
+        .srv-icon {
+            width: 54px; height: 54px;
+            background: linear-gradient(135deg, var(--copper-pale), transparent);
+            border: 1px solid var(--border); border-radius: var(--radius);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--copper); margin-bottom: 26px;
+            transition: background .3s, box-shadow .3s;
+        }
+        .srv-card:hover .srv-icon {
+            background: rgba(201,146,28,.18);
+            box-shadow: 0 4px 20px rgba(201,146,28,.18);
+        }
+        .srv-title {
+            font-family: var(--ff-body); font-size: 17px; font-weight: 700;
+            color: var(--white); text-transform: uppercase;
+            letter-spacing: .05em; margin-bottom: 12px;
+        }
+        .srv-desc { font-size: 14px; color: var(--text-2); line-height: 1.75; }
+        .srv-lnk {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--copper); font-size: 11.5px; font-weight: 600;
+            letter-spacing: .12em; text-transform: uppercase;
+            text-decoration: none; margin-top: 26px;
+            transition: gap .22s, color .22s;
+        }
+        .srv-lnk:hover { gap: 14px; color: var(--copper-light); }
+
+        /* ─────────────────────────────────────────
+           GAMMES
+        ───────────────────────────────────────── */
+        .gammes { background: var(--bg-dark); }
+        .gammes-hd {
+            display: flex; justify-content: space-between;
+            align-items: flex-end; margin-bottom: 54px;
+            gap: 20px; flex-wrap: wrap;
+        }
+
+        .gam-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+        .gam-card {
+            background: var(--bg-card); border: 1px solid var(--border-sub);
+            border-radius: var(--radius-lg); overflow: hidden;
+            text-decoration: none; display: block;
+            transition: border-color .3s, transform .3s, box-shadow .3s;
+        }
+        .gam-card:hover {
+            border-color: var(--border); transform: translateY(-5px);
+            box-shadow: 0 12px 36px rgba(0,0,0,.3);
+        }
+        .gam-img {
+            aspect-ratio: 4/3; overflow: hidden;
+            background: var(--bg-deep); position: relative;
+        }
+        .gam-img img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform .55s var(--ease);
+        }
+        .gam-card:hover .gam-img img { transform: scale(1.07); }
+        .gam-img::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(6,13,24,.55) 0%, transparent 55%);
+        }
+
+        /* Placeholder */
+        .gam-ph {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 52px;
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-deep) 100%);
+        }
+
+        .gam-body { padding: 18px 22px 22px; }
+        .gam-name {
+            font-family: var(--ff-body); font-size: 14.5px; font-weight: 700;
+            color: var(--white); text-transform: uppercase;
+            letter-spacing: .07em; margin-bottom: 6px;
+        }
+        .gam-lnk {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 11.5px; color: var(--copper); font-weight: 600;
+            letter-spacing: .09em; text-transform: uppercase;
+            transition: gap .2s;
+        }
+        .gam-card:hover .gam-lnk { gap: 10px; }
+
+        /* ─────────────────────────────────────────
+           PROCESSUS
+        ───────────────────────────────────────── */
+        .process { position: relative; }
+        .process-hd { text-align: center; margin-bottom: 72px; }
+        .process-hd .sec-label { justify-content: center; }
+
+        .proc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; position: relative; }
+        .proc-grid::before {
+            content: '';
+            position: absolute; top: 36px; left: 12.5%; right: 12.5%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), var(--copper), var(--border), transparent);
+        }
+
+        .proc-step { text-align: center; padding: 0 20px; position: relative; }
+        .proc-num {
+            width: 72px; height: 72px;
+            background: var(--bg-card); border: 1.5px solid var(--border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--ff-display); font-size: 26px; font-weight: 700;
+            color: var(--copper); margin: 0 auto 24px;
+            position: relative; z-index: 2;
+            transition: background .3s, border-color .3s, box-shadow .3s;
+        }
+        .proc-step:hover .proc-num {
+            background: var(--copper-pale);
+            border-color: var(--copper);
+            box-shadow: 0 0 0 6px rgba(201,146,28,.08);
+        }
+        .proc-title {
+            font-size: 15px; font-weight: 700; color: var(--white);
+            text-transform: uppercase; letter-spacing: .05em;
+            margin-bottom: 10px;
+        }
+        .proc-desc { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+
+        /* ─────────────────────────────────────────
+           CTA / CONTACT
+        ───────────────────────────────────────── */
+        .cta-sec { position: relative; overflow: hidden; }
+        .cta-bg {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(201,146,28,.06) 50%, var(--bg-card) 100%);
+        }
+        .cta-bg::before {
+            content: ''; position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(201,146,28,.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201,146,28,.035) 1px, transparent 1px);
+            background-size: 44px 44px;
+        }
+        .cta-inner {
+            position: relative; z-index: 2;
+            text-align: center; max-width: 740px; margin: 0 auto;
+        }
+        .cta-inner .sec-label { justify-content: center; }
+        .cta-inner .sec-p { margin: 0 auto 44px; text-align: center; }
+
+        .cta-acts { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+        .cta-info {
+            display: flex; gap: 36px; justify-content: center;
+            margin-top: 52px; padding-top: 40px;
+            border-top: 1px solid var(--border-sub);
+            flex-wrap: wrap;
+        }
+        .cta-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); }
+        .cta-item svg { color: var(--copper); flex-shrink: 0; }
+        .cta-item a { color: inherit; text-decoration: none; transition: color .2s; }
+        .cta-item a:hover { color: var(--copper-light); }
+
+        /* ─────────────────────────────────────────
+           FOOTER
+        ───────────────────────────────────────── */
+        footer {
+            background: var(--bg-deep);
+            border-top: 1px solid var(--border-sub);
+            padding: 68px 0 32px;
+        }
+        .ft-top {
+            display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+            gap: 56px; margin-bottom: 56px;
+        }
+        .ft-brand p {
+            font-size: 14px; color: var(--text-2);
+            line-height: 1.75; margin-top: 18px; max-width: 270px;
+        }
+        .ft-soc { display: flex; gap: 8px; margin-top: 22px; }
+
+        .ft-col h4 {
+            font-family: var(--ff-label); font-size: 12px;
+            letter-spacing: .22em; color: var(--white); margin-bottom: 20px;
+        }
+        .ft-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .ft-links a {
+            font-size: 13px; color: var(--text-2);
+            text-decoration: none; display: inline-block;
+            transition: color .2s, padding-left .2s;
+        }
+        .ft-links a:hover { color: var(--copper); padding-left: 6px; }
+
+        .ft-bottom {
+            border-top: 1px solid var(--border-sub);
+            padding-top: 26px;
+            display: flex; justify-content: space-between;
+            align-items: center; gap: 16px; flex-wrap: wrap;
+        }
+        .ft-bottom p { font-size: 12px; color: var(--text-3); }
+        .ft-bottom a { color: var(--copper); text-decoration: none; }
+
+        /* Copper separator */
+        .copper-sep {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--copper), transparent);
+            opacity: .35; margin: 0;
+        }
+
+        /* ─────────────────────────────────────────
+           ANIMATIONS
+        ───────────────────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: none; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-10px); }
+        }
+
+        /* ─────────────────────────────────────────
+           RESPONSIVE
+        ───────────────────────────────────────── */
+        @media (max-width: 1060px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .hero-visual  { display: none; }
+            .about-grid   { grid-template-columns: 1fr; gap: 52px; }
+            .gam-grid     { grid-template-columns: repeat(2,1fr); }
+            .proc-grid    { grid-template-columns: repeat(2,1fr); gap: 40px; }
+            .proc-grid::before { display: none; }
+            .ft-top       { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .topbar { display: none; }
+            .nav-links {
+                display: none; position: absolute;
+                top: 74px; left: 0; right: 0;
+                background: var(--bg-dark);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column; padding: 16px 24px; gap: 2px;
+            }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: flex; }
+            .srv-grid   { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+            .stat-item:not(:last-child)::after { display: none; }
+            .gammes-hd  { flex-direction: column; align-items: flex-start; }
+            .cta-info   { flex-direction: column; gap: 14px; align-items: center; }
+            .ft-top     { grid-template-columns: 1fr; }
+            body { cursor: auto; }
+            #cur, #curl { display: none; }
+        }
+        @media (max-width: 540px) {
+            .gam-grid  { grid-template-columns: 1fr; }
+            .proc-grid { grid-template-columns: 1fr; }
+            .hero-actions { flex-direction: column; }
+            .btn-p, .btn-s { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- CURSORS -->
+<div id="cur"></div>
+<div id="curl"></div>
+
+<!-- ═══════════════════════════════════════
+     TOP BAR
+═══════════════════════════════════════ -->
+<div class="topbar">
+    <div class="container">
+        <div class="topbar-inner">
+            <div class="topbar-left">
+                <div class="titem">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.56 3.34a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <a href="tel:+212661743906">+212 661 743 906</a>
+                </div>
+                <div class="titem">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.56 3.34a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <a href="tel:+212520596185">+212 520 596 185</a>
+                </div>
+                <div class="titem">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <a href="mailto:ste2trgo@gmail.com">ste2trgo@gmail.com</a>
+                </div>
+                <div class="titem">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Lun – Sam &nbsp;8h00 – 18h00
+                </div>
+            </div>
+            <div class="topbar-right">
+                <span class="topbar-tag">FAITES CONFIANCE AU LEADER</span>
+                <div class="s-links">
+                    <a href="#" class="s-link" title="Facebook">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="#" class="s-link" title="Instagram">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="#" class="s-link" title="LinkedIn">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════ -->
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <div class="nav-inner">
+            <a href="#accueil" class="logo">
+                <div>
+                    <div class="logo-text"><span class="T">T</span><span class="RGO">RGO</span></div>
+                    <span class="logo-sub">Construction Modulaire</span>
+                </div>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#accueil" class="active">Accueil</a></li>
+                <li><a href="#a-propos">À Propos</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gammes">Gammes</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" class="nav-cta">Obtenir un Devis</a></li>
+            </ul>
+
+            <div class="nav-toggle" id="navToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section class="hero" id="accueil">
+    <div class="hero-bg"></div>
+    <div class="geo geo-1"></div>
+    <div class="geo geo-2"></div>
+    <div class="geo geo-3"></div>
+    <div class="hero-orb"></div>
+
+    <div class="container">
+        <div class="hero-content">
+            <!-- Text -->
+            <div class="hero-text">
+                <div class="hero-label">TRGO Construction Modulaire</div>
+                <h1 class="hero-h1">
+                    Construisons<br>
+                    l'Avenir <em>Modulaire</em><br>
+                    du Maroc
+                </h1>
+                <p class="hero-desc">
+                    Des solutions de bâtiments modulaires sur-mesure, adaptées à tous vos projets.
+                    Conception, construction et livraison clé en main — avec excellence et précision.
+                </p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn-p">
+                        Obtenir un Devis
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                    <a href="#gammes" class="btn-s">
+                        Voir nos Gammes
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Visual -->
+            <div class="hero-visual">
+                <div class="h-frame">
+                    <div class="h-img">
+                        <img src="images/hero-main.jpg" alt="Bâtiment modulaire TRGO">
+                    </div>
+                </div>
+                <div class="h-badge h-badge-1">
+                    <div class="bn">500<span style="font-size:18px">+</span></div>
+                    <div class="bl">Projets Réalisés</div>
+                </div>
+                <div class="h-badge h-badge-2">
+                    <div class="bn">15<span style="font-size:18px">+</span></div>
+                    <div class="bl">Ans d'Expérience</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     STATS BAR
+═══════════════════════════════════════ -->
+<div class="stats-bar">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-num" data-target="500">0<span class="stat-suf">+</span></span>
+                <div class="stat-lbl">Projets Réalisés</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num" data-target="15">0<span class="stat-suf">+</span></span>
+                <div class="stat-lbl">Ans d'Expérience</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num" data-target="350">0<span class="stat-suf">+</span></span>
+                <div class="stat-lbl">Clients Satisfaits</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num" data-target="98">0<span class="stat-suf">%</span></span>
+                <div class="stat-lbl">Taux de Satisfaction</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════ -->
+<section class="about" id="a-propos">
+    <div class="container">
+        <div class="about-grid">
+            <!-- Visual -->
+            <div class="about-vis rev">
+                <div class="about-img">
+                    <img
+                        src="images/about-main.jpg"
+                        alt="TRGO chantier modulaire"
+                        onerror="this.style.display='none'"
+                    >
+                </div>
+                <div class="about-float">
+                    <div class="afn">15+</div>
+                    <div class="aft">Années d'Expertise</div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="about-cnt">
+                <div class="sec-label rev">Pour Mieux Nous Connaître</div>
+                <h2 class="sec-h2 rev d1">
+                    Spécialiste en <em>Bâtiment</em><br>et Construction Modulaire
+                </h2>
+                <p class="sec-p rev d2">
+                    TRGO offre des bâtiments et constructions modulaires adaptées à tous vos besoins,
+                    quelle que soit la taille de votre projet. Nous prenons en charge la conception,
+                    le design, la construction et la livraison — une solution complète et clé en main.
+                </p>
+
+                <div class="about-feats">
+                    <div class="afeat rev d2">
+                        <div class="afeat-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22,8.5 12,15.5 2,8.5"/></svg>
+                        </div>
+                        <div class="afeat-body">
+                            <h4>Conception Sur-Mesure</h4>
+                            <p>Chaque projet est unique — nous adaptons nos solutions à vos contraintes de site, budget et délai.</p>
+                        </div>
+                    </div>
+                    <div class="afeat rev d3">
+                        <div class="afeat-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <div class="afeat-body">
+                            <h4>Qualité & Durabilité</h4>
+                            <p>Matériaux de haute qualité, assemblage rigoureux — nos modules sont conçus pour durer.</p>
+                        </div>
+                    </div>
+                    <div class="afeat rev d4">
+                        <div class="afeat-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="afeat-body">
+                            <h4>Délais Maîtrisés</h4>
+                            <p>Installation 3× plus rapide que le traditionnel — livraison dans les délais, budgets respectés.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:38px" class="rev d4">
+                    <a href="#services" class="btn-p">Nos Services →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SERVICES
+═══════════════════════════════════════ -->
+<section class="services" id="services">
+    <div class="container">
+        <div class="services-hd">
+            <div class="sec-label rev">Ce Que Nous Faisons</div>
+            <h2 class="sec-h2 rev d1">Nos <em>Services</em></h2>
+            <p class="sec-p rev d2">
+                De la conception à la livraison, chaque étape de votre projet est prise en charge
+                avec expertise et professionnalisme.
+            </p>
+        </div>
+
+        <div class="srv-grid">
+            <div class="srv-card rev d1">
+                <span class="srv-num">01</span>
+                <div class="srv-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20M4 20V10l8-8 8 8v10M10 20v-6h4v6"/></svg>
+                </div>
+                <h3 class="srv-title">Conception & Design</h3>
+                <p class="srv-desc">L'innovation et le design sont les maîtres-mots pour des constructions modulaires esthétiques, fonctionnelles et adaptées à vos besoins spécifiques.</p>
+                <a href="#contact" class="srv-lnk">En Savoir Plus →</a>
+            </div>
+
+            <div class="srv-card rev d2">
+                <span class="srv-num">02</span>
+                <div class="srv-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                </div>
+                <h3 class="srv-title">Construction</h3>
+                <p class="srv-desc">Des plannings 2 à 3× plus rapides que la construction classique — délais et budgets strictement maîtrisés, sans compromis sur la qualité.</p>
+                <a href="#contact" class="srv-lnk">En Savoir Plus →</a>
+            </div>
+
+            <div class="srv-card rev d3">
+                <span class="srv-num">03</span>
+                <div class="srv-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <h3 class="srv-title">Livraison</h3>
+                <p class="srv-desc">Chaque module est nettoyé, contrôlé et emballé individuellement pour un transport sécurisé jusqu'à votre site, partout au Maroc.</p>
+                <a href="#contact" class="srv-lnk">En Savoir Plus →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     GAMMES
+═══════════════════════════════════════ -->
+<section class="gammes" id="gammes">
+    <div class="container">
+        <div class="gammes-hd">
+            <div>
+                <div class="sec-label rev">Nos Produits</div>
+                <h2 class="sec-h2 rev d1">Nos <em>Gammes</em></h2>
+            </div>
+            <a href="#contact" class="btn-s rev d2">Demander un Devis →</a>
+        </div>
+
+        <div class="gam-grid">
+            <a href="bureau-chantier.html" class="gam-card rev d1">
+                <div class="gam-img">
+                    <img src="images/bureau-chantier.jpg" alt="Bureaux de Chantier et de Vente">
+                </div>
+                <div class="gam-body">
+                    <div class="gam-name">Bureaux de Chantier &amp; de Vente</div>
+                    <div class="gam-lnk">Voir Plus →</div>
+                </div>
+            </a>
+
+            <a href="blocs-sanitaires.html" class="gam-card rev d2">
+                <div class="gam-img">
+                    <img src="images/blocs-sanitaires.jpg" alt="Blocs Sanitaires">
+                </div>
+                <div class="gam-body">
+                    <div class="gam-name">Blocs Sanitaires</div>
+                    <div class="gam-lnk">Voir Plus →</div>
+                </div>
+            </a>
+
+            <a href="logement-secondaire.html" class="gam-card rev d3">
+                <div class="gam-img">
+                    <img src="images/logement-secondaire.jpg" alt="Logement Secondaire">
+                </div>
+                <div class="gam-body">
+                    <div class="gam-name">Logement Secondaire</div>
+                    <div class="gam-lnk">Voir Plus →</div>
+                </div>
+            </a>
+
+            <a href="toilette-mobile.html" class="gam-card rev d4">
+                <div class="gam-img">
+                    <img src="images/toilette-mobile.jpg" alt="Toilette Mobile">
+                </div>
+                <div class="gam-body">
+                    <div class="gam-name">Toilette Mobile</div>
+                    <div class="gam-lnk">Voir Plus →</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PROCESSUS
+═══════════════════════════════════════ -->
+<section class="process" id="processus">
+    <div class="container">
+        <div class="process-hd">
+            <div class="sec-label rev">Comment Ça Marche</div>
+            <h2 class="sec-h2 rev d1">Notre <em>Processus</em></h2>
+        </div>
+
+        <div class="proc-grid">
+            <div class="proc-step rev d1">
+                <div class="proc-num">01</div>
+                <div class="proc-title">Consultation</div>
+                <p class="proc-desc">Analyse de vos besoins, contraintes de site et objectifs pour définir la solution idéale.</p>
+            </div>
+            <div class="proc-step rev d2">
+                <div class="proc-num">02</div>
+                <div class="proc-title">Conception</div>
+                <p class="proc-desc">Plans 3D, choix des matériaux et validation technique avant toute fabrication.</p>
+            </div>
+            <div class="proc-step rev d3">
+                <div class="proc-num">03</div>
+                <div class="proc-title">Fabrication</div>
+                <p class="proc-desc">Production en atelier sous contrôle qualité rigoureux, dans des délais maîtrisés.</p>
+            </div>
+            <div class="proc-step rev d4">
+                <div class="proc-num">04</div>
+                <div class="proc-title">Livraison & Installation</div>
+                <p class="proc-desc">Transport sécurisé et installation clé en main sur votre site, partout au Maroc.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="copper-sep"></div>
+
+<!-- ═══════════════════════════════════════
+     CTA / CONTACT
+═══════════════════════════════════════ -->
+<section class="cta-sec" id="contact">
+    <div class="cta-bg"></div>
+    <div class="container">
+        <div class="cta-inner">
+            <div class="sec-label rev">Contactez-Nous</div>
+            <h2 class="sec-h2 rev d1" style="font-size:clamp(38px,4.5vw,64px);margin-bottom:18px">
+                Prêt à Lancer Votre<br><em>Projet Modulaire</em>&nbsp;?
+            </h2>
+            <p class="sec-p rev d2">
+                Obtenez un devis gratuit et personnalisé en moins de 24h.
+                Notre équipe d'experts est à votre disposition.
+            </p>
+            <div class="cta-acts rev d3">
+                <a href="tel:+212661743906" class="btn-p">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.56 3.34a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    Appeler Maintenant
+                </a>
+                <a href="mailto:ste2trgo@gmail.com" class="btn-s">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Envoyer un Email
+                </a>
+            </div>
+
+            <div class="cta-info rev d4">
+                <div class="cta-item">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.56 3.34a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <div><a href="tel:+212661743906">+212 661 743 906</a><br><a href="tel:+212520596185" style="font-size:12px">+212 520 596 185</a></div>
+                </div>
+                <div class="cta-item">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <a href="mailto:ste2trgo@gmail.com">ste2trgo@gmail.com</a>
+                </div>
+                <div class="cta-item">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.33 8 14 8 14s8-8.67 8-14a8 8 0 0 0-8-8z"/></svg>
+                    <span>Cité Essalam, Haï Al-Hassani,<br>Casablanca</span>
+                </div>
+                <div class="cta-item">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    trgoconstruction.com
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer>
+    <div class="container">
+        <div class="ft-top">
+            <div class="ft-brand">
+                <a href="#accueil" class="logo">
+                    <div>
+                        <div class="logo-text"><span class="T">T</span><span class="RGO">RGO</span></div>
+                        <span class="logo-sub">Construction Modulaire</span>
+                    </div>
+                </a>
+                <p>Votre partenaire de confiance pour des solutions modulaires premium au Maroc. Clé en main, du concept à la livraison.</p>
+                <div class="ft-soc">
+                    <a href="#" class="s-link" title="Facebook">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="#" class="s-link" title="Instagram">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="#" class="s-link" title="LinkedIn">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="ft-col">
+                <h4>Navigation</h4>
+                <ul class="ft-links">
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#a-propos">À Propos</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#gammes">Gammes</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="ft-col">
+                <h4>Nos Gammes</h4>
+                <ul class="ft-links">
+                    <li><a href="bureau-chantier.html">Bureaux de Chantier</a></li>
+                    <li><a href="blocs-sanitaires.html">Blocs Sanitaires</a></li>
+                    <li><a href="logement-secondaire.html">Logement Secondaire</a></li>
+                    <li><a href="toilette-mobile.html">Toilette Mobile</a></li>
+                </ul>
+            </div>
+
+            <div class="ft-col">
+                <h4>Contact</h4>
+                <ul class="ft-links">
+                    <li><a href="tel:+212661743906">+212 661 743 906</a></li>
+                    <li><a href="tel:+212520596185">+212 520 596 185</a></li>
+                    <li><a href="mailto:ste2trgo@gmail.com">ste2trgo@gmail.com</a></li>
+                    <li><a href="#">trgoconstruction.com</a></li>
+                    <li><a href="#contact">Cité Essalam, Casablanca</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="ft-bottom">
+            <p>© 2024 TRGO Construction Modulaire. Tous droits réservés.</p>
+            <p>Conçu avec excellence pour <a href="#">TRGO Maroc</a></p>
+        </div>
+    </div>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+<script>
+    /* ── Custom cursor ── */
+    const cur  = document.getElementById('cur');
+    const curl = document.getElementById('curl');
+    let mx = 0, my = 0, lx = 0, ly = 0;
+
+    document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        cur.style.left = mx + 'px';
+        cur.style.top  = my + 'px';
+    });
+
+    (function lerp() {
+        lx += (mx - lx) * .12;
+        ly += (my - ly) * .12;
+        curl.style.left = lx + 'px';
+        curl.style.top  = ly + 'px';
+        requestAnimationFrame(lerp);
+    })();
+
+    document.querySelectorAll('a,button,.srv-card,.gam-card,.afeat').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cur.style.transform  = 'translate(-50%,-50%) scale(2)';
+            curl.style.transform = 'translate(-50%,-50%) scale(1.4)';
+            curl.style.opacity   = '.7';
+        });
+        el.addEventListener('mouseleave', () => {
+            cur.style.transform  = 'translate(-50%,-50%) scale(1)';
+            curl.style.transform = 'translate(-50%,-50%) scale(1)';
+            curl.style.opacity   = '.45';
+        });
+    });
+
+    /* ── Navbar scroll ── */
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 16);
+    }, { passive: true });
+
+    /* ── Mobile toggle ── */
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+    /* ── Active nav on scroll ── */
+    const secs = document.querySelectorAll('section[id]');
+    const navAs = document.querySelectorAll('.nav-links a');
+    new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+            }
+        });
+    }, { threshold: .25 }).observe && secs.forEach(s =>
+        new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting)
+                    navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+            });
+        }, { threshold: .25 }).observe(s)
+    );
+
+    /* ── Scroll reveal ── */
+    const revEls = document.querySelectorAll('.rev');
+    new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+        });
+    }, { threshold: .1, rootMargin: '0px 0px -48px 0px' }).observe
+        ? (() => {
+            const io = new IntersectionObserver((entries, obs) => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }});
+            }, { threshold: .1, rootMargin: '0px 0px -48px 0px' });
+            revEls.forEach(el => io.observe(el));
+        })() : revEls.forEach(el => el.classList.add('in'));
+
+    /* ── Animated counters ── */
+    const counters = document.querySelectorAll('[data-target]');
+    const cio = new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            obs.unobserve(e.target);
+            const el     = e.target;
+            const target = +el.dataset.target;
+            const suf    = el.querySelector('.stat-suf').outerHTML;
+            let cur2     = 0;
+            const step   = target / 60;
+            const t = setInterval(() => {
+                cur2 += step;
+                if (cur2 >= target) { cur2 = target; clearInterval(t); }
+                el.innerHTML = Math.floor(cur2) + suf;
+            }, 24);
+        });
+    }, { threshold: .6 });
+    counters.forEach(c => cio.observe(c));
+</script>
+</body>
+</html>
