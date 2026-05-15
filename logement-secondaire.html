@@ -162,6 +162,14 @@
         .form-group select option { background: var(--bg-dark); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .form-submit { width: 100%; margin-top: 8px; justify-content: center; }
+        .form-options-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px; }
+        .options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px; }
+        .opt-item { position: relative; }
+        .opt-item input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+        .opt-item label { display: flex; align-items: center; gap: 7px; padding: 10px 12px; border-radius: var(--radius); border: 1.5px solid var(--border-sub); background: var(--bg-dark); cursor: pointer; font-size: 12.5px; color: var(--text-2); font-weight: 500; transition: border-color .2s, background .2s, color .2s; user-select: none; }
+        .opt-item label .opt-icon { font-size: 15px; flex-shrink: 0; }
+        .opt-item input:checked + label { border-color: var(--copper); background: var(--copper-pale); color: var(--text-1); font-weight: 600; }
+        @media (max-width: 540px) { .options-grid { grid-template-columns: repeat(2, 1fr); } }
         .contact-info h3 { font-family: var(--ff-display); font-size: 38px; font-weight: 600; color: var(--text-1); margin-bottom: 12px; }
         .contact-info h3 em { font-style: italic; color: var(--copper); }
         .contact-info > p { font-size: 15px; color: var(--text-2); line-height: 1.8; margin-bottom: 36px; }
@@ -434,6 +442,20 @@
                         </select>
                     </div>
                     <div class="form-group"><label>Message</label><textarea id="f-msg" placeholder="Décrivez votre projet (dimensions souhaitées, usage, délai...)"></textarea></div>
+                    <div class="form-group">
+                        <span class="form-options-label">Options souhaitées</span>
+                        <div class="options-grid">
+                            <div class="opt-item"><input type="checkbox" id="opt-clim" value="❄️ Climatisation"><label for="opt-clim"><span class="opt-icon">❄️</span> Climatisation</label></div>
+                            <div class="opt-item"><input type="checkbox" id="opt-chauff" value="🔥 Chauffage"><label for="opt-chauff"><span class="opt-icon">🔥</span> Chauffage</label></div>
+                            <div class="opt-item"><input type="checkbox" id="opt-led" value="💡 Éclairage LED"><label for="opt-led"><span class="opt-icon">💡</span> Éclairage LED</label></div>
+                            <div class="opt-item"><input type="checkbox" id="opt-elec" value="🔌 Installation électrique"><label for="opt-elec"><span class="opt-icon">🔌</span> Électricité</label></div>
+                            <div class="opt-item"><input type="checkbox" id="opt-plomb" value="🚿 Plomberie"><label for="opt-plomb"><span class="opt-icon">🚿</span> Plomberie</label></div>
+                            <div class="opt-item"><input type="checkbox" id="opt-isol" value="🛡️ Isolation thermique"><label for="opt-isol"><span class="opt-icon">🛡️</span> Isolation</label></div>
+                            <div class="opt-item"><input type="checkbox" id="opt-sec" value="🔒 Sécurité renforcée"><label for="opt-sec"><span class="opt-icon">🔒</span> Sécurité</label></div>
+                            <div class="opt-item"><input type="checkbox" id="opt-peinture" value="🎨 Peinture intérieure"><label for="opt-peinture"><span class="opt-icon">🎨</span> Peinture</label></div>
+                            <div class="opt-item"><input type="checkbox" id="opt-sol" value="🏠 Revêtement sol"><label for="opt-sol"><span class="opt-icon">🏠</span> Revêt. sol</label></div>
+                        </div>
+                    </div>
                     <button type="submit" class="btn-p form-submit">Envoyer la Demande <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
                 </form>
             </div>
@@ -516,8 +538,10 @@
         const email  = document.getElementById('f-email').value.trim();
         const sujet  = document.getElementById('f-sujet').value;
         const msg    = document.getElementById('f-msg').value.trim();
+        const opts   = [...document.querySelectorAll('.options-grid input:checked')].map(c => c.value);
         if (!nom || !tel) { alert('Veuillez renseigner votre nom et téléphone.'); return; }
-        const text = `🏗️ *Demande de Devis TRGO*\n\n👤 *Nom:* ${nom} ${prenom}\n📞 *Téléphone:* ${tel}${email ? '\n📧 *Email:* ' + email : ''}\n📋 *Sujet:* ${sujet}${msg ? '\n💬 *Message:* ' + msg : ''}`;
+        const optsLine = opts.length ? '\n⚙️ *Options:* ' + opts.join(', ') : '';
+        const text = `🏗️ *Demande de Devis TRGO*\n\n👤 *Nom:* ${nom} ${prenom}\n📞 *Téléphone:* ${tel}${email ? '\n📧 *Email:* ' + email : ''}\n📋 *Sujet:* ${sujet}${optsLine}${msg ? '\n💬 *Message:* ' + msg : ''}`;
         window.open('https://wa.me/212661743906?text=' + encodeURIComponent(text), '_blank');
     }
 </script>
