@@ -469,6 +469,15 @@
            PROMO BANNER
         ───────────────────────────────────────── */
         .promo-banner { background: var(--bg-dark); padding: 0; }
+        .promo-banner-logo {
+            text-align: center;
+            padding: 28px 20px 4px;
+        }
+        .promo-banner-logo img {
+            height: 80px;
+            width: auto;
+            display: inline-block;
+        }
         .promo-banner-title {
             text-align: center;
             font-family: var(--ff-head);
@@ -476,7 +485,7 @@
             font-weight: 700;
             color: var(--text-1);
             letter-spacing: .02em;
-            padding: 28px 20px 20px;
+            padding: 10px 20px 20px;
         }
         .promo-banner-title em { color: var(--copper); font-style: normal; }
         .promo-banner-img {
@@ -487,7 +496,7 @@
         }
         .promo-banner-img img { width: 100%; display: block; }
         @media (max-width: 768px) {
-            .promo-banner { padding: 20px 0 0; }
+            .promo-banner-logo img { height: 60px; }
         }
 
         /* ─────────────────────────────────────────
@@ -1067,6 +1076,9 @@
      PROMO BANNER
 ═══════════════════════════════════════ -->
 <section class="promo-banner">
+    <div class="promo-banner-logo">
+        <img src="images/logo.jpeg" alt="TRGO Construction Modulaire">
+    </div>
     <h1 class="promo-banner-title">
         <em>TRGO</em> — Construction Modulaire &amp; Bâtiment Préfabriqué au Maroc
     </h1>
