@@ -488,8 +488,11 @@
             padding: 10px 20px 20px;
         }
         .promo-banner-title em { color: var(--copper); font-style: normal; }
-        .promo-banner-img { width: 100%; display: block; }
+        .promo-banner-img { width: 100%; max-width: 600px; margin: 0 auto; display: block; }
         .promo-banner-img img { width: 100%; display: block; }
+        @media (max-width: 768px) {
+            .promo-banner-img { max-width: 100%; }
+        }
         @media (max-width: 768px) {
             .promo-banner-logo img { height: 60px; }
         }
