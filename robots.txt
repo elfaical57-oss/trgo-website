@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trgomodulaire.com/sitemap.xml
