@@ -466,6 +466,23 @@
         .d5 { transition-delay: .40s; }
 
         /* ─────────────────────────────────────────
+           PROMO BANNER
+        ───────────────────────────────────────── */
+        .promo-banner { padding: 56px 0; background: var(--bg-deep); }
+        .promo-banner-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 12px 48px rgba(0,0,0,.10);
+        }
+        .promo-banner-inner img { width: 100%; display: block; }
+        @media (max-width: 768px) {
+            .promo-banner { padding: 32px 0; }
+            .promo-banner-inner { border-radius: 12px; }
+        }
+
+        /* ─────────────────────────────────────────
            ABOUT
         ───────────────────────────────────────── */
         .about { background: var(--bg-dark); }
@@ -1156,6 +1173,17 @@
         </div>
     </div>
 </div>
+
+<!-- ═══════════════════════════════════════
+     PROMO BANNER
+═══════════════════════════════════════ -->
+<section class="promo-banner">
+    <div class="container">
+        <div class="promo-banner-inner rev">
+            <img src="images/promo-banner.png" alt="TRGO — Faites confiance au leader de la construction modulaire au Maroc">
+        </div>
+    </div>
+</section>
 
 <!-- ═══════════════════════════════════════
      ABOUT
