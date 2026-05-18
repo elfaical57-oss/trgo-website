@@ -13,14 +13,14 @@
     <meta property="og:title" content="Plan Spécifique Sur Mesure — TRGO Construction Modulaire">
     <meta property="og:description" content="Projet modulaire 100% sur mesure au Maroc. Décrivez vos besoins, nous concevons votre bâtiment modulaire en 24h. TRGO Construction.">
     <meta property="og:url" content="https://trgomodulaire.com/plan-specifique.html">
-    <meta property="og:image" content="https://trgomodulaire.com/images/hero-main.jpg">
+    <meta property="og:image" content="https://trgomodulaire.com/images/plan.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Plan Spécifique Sur Mesure — TRGO Construction Modulaire">
     <meta name="twitter:description" content="Projet modulaire 100% sur mesure au Maroc. Décrivez vos besoins, nous concevons votre bâtiment modulaire en 24h. TRGO Construction.">
-    <meta name="twitter:image" content="https://trgomodulaire.com/images/hero-main.jpg">
+    <meta name="twitter:image" content="https://trgomodulaire.com/images/plan.png">
     <title>Plan Spécifique Sur Mesure — TRGO Construction Modulaire</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,6 +99,8 @@
 
         /* PLAN HERO */
         .plan-hero { background: linear-gradient(135deg, #0D1B2A 0%, #1a2d42 60%, #0D1B2A 100%); padding: 80px 0; position: relative; overflow: hidden; }
+        .plan-hero-bg { position: absolute; inset: 0; }
+        .plan-hero-bg img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .18; }
         .plan-hero::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(201,146,28,.06) 39px, rgba(201,146,28,.06) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(201,146,28,.06) 39px, rgba(201,146,28,.06) 40px); }
         .plan-hero::after { content: ''; position: absolute; top: -80px; right: -80px; width: 400px; height: 400px; border: 1px solid rgba(201,146,28,.12); border-radius: 50%; }
         .plan-hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
@@ -268,6 +270,7 @@
 
 <!-- HERO -->
 <div class="plan-hero">
+    <div class="plan-hero-bg"><img src="images/plan.png" alt="Plan Spécifique TRGO"></div>
     <div class="container">
         <div class="plan-hero-inner">
             <div>
